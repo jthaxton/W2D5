@@ -1,3 +1,6 @@
+require_relative "p02_hashing"
+require 'byebug'
+
 class HashSet
   attr_reader :count
 
@@ -7,12 +10,26 @@ class HashSet
   end
 
   def insert(key)
+
+    idx = key.hash % num_buckets
+    unless include?(key)
+      @store[idx] << key
+      @count += 1
+    end
   end
 
   def include?(key)
+    idx = key.hash % num_buckets
+    @store[idx] == [key]
   end
 
   def remove(key)
+    idx = key.hash % num_buckets
+
+    if @store[idx].include?(key)
+      @store[idx].delete(key)
+      @count -= 1
+    end
   end
 
   private
